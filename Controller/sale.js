@@ -10,8 +10,9 @@ export async function getSales(req, res) {
 }
 
 export async function createSale(req, res) {
+  try {
     const saleData = req.body;
-    try {
+      console.log(saleData)
       const sale = new Sale(saleData);
       await sale.save();
       res.status(201).json(sale);
@@ -21,8 +22,8 @@ export async function createSale(req, res) {
 }
 
 export async function getSale(req, res) {
-    const saleID = req.params.id;
   try {
+    const saleID = req.params.id;
     const sale = await Sale.findById(saleID);
     if (sale) {
       res.json(sale);
@@ -44,18 +45,14 @@ export async function updateSale(req, res) {
     if (!sale) {
       return { success: false, message: 'Sale not found' };
     }
-    console.log(sale)
-    console.log(updatedData)
     // Update the sale properties with the new data
     sale.SaleID = updatedData.SaleID || sale.SaleID;
     sale.ItemID = updatedData.ItemID || sale.ItemID;
     sale.ItemName = updatedData.ItemName || sale.ItemName;
     sale.Price = updatedData.Price || sale.Price;
     sale.Date = updatedData.Date || sale.Date;
-    console.log(sale)
     // Save the updated sale
     await sale.save();
-    console.log("saved")
     res.json(sale)
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

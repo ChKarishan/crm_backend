@@ -4,7 +4,7 @@ import { getSales, createSale, getSale, updateSale, deleteSale } from '../Contro
 import { verifyToken } from '../Middleware/auth.js';
 
 router.get('/', verifyToken, getSales);
-router.post('/', verifyToken, createSale);
+router.post('/createSale', verifyToken, createSale);
 router.get('/:id', verifyToken, getSale);
 router.put('/:id', verifyToken, updateSale);
 router.delete('/:id', verifyToken, deleteSale);

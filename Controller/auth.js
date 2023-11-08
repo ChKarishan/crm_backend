@@ -11,11 +11,14 @@ import {verifyToken} from "../Middleware/auth.js"; // Import the JWT middleware
 export const register = async (req, res) => {
   try {
 
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
+    const profilePicture = req.file ? req.file.path : '';
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
       email,
+      username,
       password: hashedPassword,
+      profilePicture,
     });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
@@ -43,18 +46,16 @@ export const login = async (req, res) => {
       if (!passwordMatch) {
         return res.status(401).json({ error: 'Authentication failed' });
       }
-      // If the email and password are valid, you can generate a JWT token here
-      // and send it back to the client
-      // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      //   expiresIn: '1h', // Token expiration time
-      // });
+      
       const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
-      res.json({ message: 'Authentication successful', token });
+
+      res.cookie('token', token);
+      return res.json({ message: 'Authentication successful', token });
 
 
     } catch (error) {
 
-      res.status(500).json({ error: 'Login failed' });
+      return res.status(500).json({ error: 'Login failed' });
 
     }
   };

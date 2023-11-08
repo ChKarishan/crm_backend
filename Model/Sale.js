@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
+import date from 'date-and-time';
 
 const saleSchema = new mongoose.Schema({
   SaleID: String,
   ItemID: String,
   ItemName: String,
   Price: Number,
-  Date: Date,
+  Date: String,
 });
 
 export default mongoose.model('Sale', saleSchema);
