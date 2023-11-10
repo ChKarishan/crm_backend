@@ -2,26 +2,16 @@ import express from "express";
 const router = express.Router();
 import User from "../Model/User.js";
 import bcrypt from "bcrypt";
-import multer from "multer";
 import path from "path";
 import jwt from 'jsonwebtoken';
+import axios from "axios";
+// import {v2 as cloudinary} from 'cloudinary';
 
-
-
-
-// Configure Multer for handling file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Define the directory where profile pictures will be stored
-    },
-    filename: (req, file, cb) => {
-      const uniqueFileName = `${Date.now()}-${file.originalname}`;
-      cb(null, uniqueFileName);
-    },
-  });
-  
-  const upload = multer({ storage });
-
+// cloudinary.config({ 
+//     cloud_name: 'dmlmiktus', 
+//     api_key: '777783275156829', 
+//     api_secret: 'aL8yg2Pw9cTo_69wvFCFhvlZuEg' 
+//   });
 
 export async function updateUserName(req, res) {
     try {
@@ -71,8 +61,10 @@ export async function getProfilePicture(req,res){
     const profilePicturePath = user.profilePicture;
     // Serve the user's profile picture as a file
     if (profilePicturePath) {
-      const absolutePath = path.join(__dirname, profilePicturePath);
-      res.sendFile(absolutePath);
+        const response = await axios.get(profilePicturePath, { responseType: 'arraybuffer' });
+        // Set the appropriate headers for an image response
+        res.set('Content-Type', 'image/jpeg');
+        res.send(response.data);
     } else {
       return res.status(404).json({ error: 'Profile picture not found' });
     }
@@ -87,6 +79,7 @@ export async function getProfilePicture(req,res){
 export async function updateProfilePicture(req,res){
     try {
 
+    console.log("in updateProfilePicture")
     const token = req.headers['authorization'];
     if (!token) {
       return res.status(401).json({ error: 'No token provided' });
@@ -99,14 +92,24 @@ export async function updateProfilePicture(req,res){
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    // Update the user's profile picture path in the database
-    if (req.file) {
-        user.profilePicture = req.file.path;
-        await user.save();
-        res.status(200).json({ message: 'Profile picture updated successfully' });
-    } else {
-      return res.status(400).json({ error: 'Invalid file format or missing profile picture' });
-    }
+    console.log(req.body);
+    user.profilePicture = req.body.profilePicture;
+    await user.save();
+    res.status(200).json({ message: 'Profile picture updated successfully' });
+
+    // // Update the user's profile picture path in the database
+    // if (req.file) {
+    //     // Upload the image to Cloudinary
+    //     console.log(req.file);
+    //     const result = await cloudinary.uploader.upload(req.file);
+    //     console.log("result");
+    //     console.log(result);
+    //     user.profilePicture = result.secure_url ;
+    //     await user.save();
+    //     res.status(200).json({ message: 'Profile picture updated successfully' });
+    // } else {
+    //   return res.status(400).json({ error: 'Invalid file format or missing profile picture' });
+    // }
 
     } catch (error) {
 

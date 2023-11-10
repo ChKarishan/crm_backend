@@ -2,7 +2,6 @@ import express from "express";
 const router = express.Router();
 import User from "../Model/User.js";
 import jwt from "jsonwebtoken";
-
 import bcrypt from "bcrypt";
 
 import {verifyToken} from "../Middleware/auth.js"; // Import the JWT middleware
@@ -11,15 +10,16 @@ import {verifyToken} from "../Middleware/auth.js"; // Import the JWT middleware
 export const register = async (req, res) => {
   try {
 
-    const { email, username, password } = req.body;
-    const profilePicture = req.file ? req.file.path : '';
+    const { email, username, password, profilePicture} = req.body;
+    console.log(req.body);
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
       email,
       username,
       password: hashedPassword,
-      profilePicture,
+      profilePicture, 
     });
+    console.log(user);
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
 
