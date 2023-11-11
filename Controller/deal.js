@@ -45,7 +45,7 @@ export async function updateDeal(req, res){
         const dealId = req.params.dealId;
         const { amount, closedate, dealname, pipeline, dealstage} = req.body;
         const data = {dealId, amount, closedate, dealname, pipeline, dealstage};
-        const response = await hubspotAxios.put(`/deals/v1/deal/${dealId}`, data);
+        const response = await hubspotClient.put(`/deals/v1/deal/${dealId}`, data);
         res.json(response.data);
 
     }catch{
