@@ -10,6 +10,12 @@ import bodyParser from "body-parser";
 import {userData, saleData} from "./dummy_data/data.js"
 import User from './Model/User.js'
 import Sale from './Model/Sale.js'
+import hubspot from "@hubspot/api-client";
+
+const hubspotClient = new hubspot.Client({
+    accessToken: 'pat-na1-c403eed2-62fb-4673-9e64-834f407f3904',
+    numberOfApiCallRetries: 3,
+});
         
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,3 +49,5 @@ mongoose.connect(process.env.MONGO_URL, {
     // Sale.insertMany(saleData);
 
 }).catch((error) => console.log(`${error} did not conenct`));
+
+export default hubspotClient;

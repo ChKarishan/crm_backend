@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import date from 'date-and-time';
 
 const saleSchema = new mongoose.Schema({
-  SaleID: String,
+  SaleID: {type: String,required: true, unique: true },
   ItemID: String,
   ItemName: String,
   Price: Number,
