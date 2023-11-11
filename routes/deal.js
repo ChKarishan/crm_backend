@@ -3,7 +3,7 @@ const router = express.Router();
 import { verifyToken } from '../Middleware/auth.js';
 //import function from controller
 
-router.get('/getAllDealsFromHubspot', verifyToken, getDeals);
+router.get('/getAllDealsFromHubspot', verifyToken, getAllDealsFromHubspot);
 router.get('/getDeal/:id', verifyToken, getDeal);
 router.post('/createDeal', verifyToken, createDeal);
 router.post('/AssociateDealWithUser', verifyToken, AssociateDealWithUser); //remaining
