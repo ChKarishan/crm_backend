@@ -4,7 +4,13 @@ import hubspotClient from '../index.js';
 export async function getAllContactsFromHubspot(req,res){
     try{
 
+        const allContacts = await hubspotClient.crm.contacts.getAll();
+        console.log(allContacts)
+        res.json(allContacts)
+
     }catch(error){
+
+        res.status(500).json({ error: 'Internal Server Error' });
 
     }
 }
