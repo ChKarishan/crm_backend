@@ -6,7 +6,7 @@ import { verifyToken } from '../Middleware/auth.js';
 router.get('/getAllDealsFromHubspot', verifyToken, getAllDealsFromHubspot);
 router.get('/getDeal/:id', verifyToken, getDeal);
 router.post('/createDeal', verifyToken, createDeal);
-router.post('/AssociateDealWithUser', verifyToken, AssociateDealWithUser); //remaining
+router.post('/AssociateDealWithContact', verifyToken, AssociateDealWithUser); //remaining
 router.put('/updateDeal/:dealId', verifyToken, updateDeal);
 
 export default router;
