@@ -18,7 +18,7 @@ export const register = async (req, res) => {
     if (referralCode) {
       referredBy = await User.findOne({ referralCode });
       if(referredBy){
-       referralCode = shortid.generate();
+       parent = referredBy; //shortid.generate();
       }
       else{
           res.status(500).json({ success: false, message: 'wrong referral code' });
@@ -27,12 +27,12 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
-      email,
-      username,
+      email: email,
+      username: username,
       password: hashedPassword,
-      referralCode,
+      referralCode: shortid.generate(),
       parent: referredBy,
-      profilePicture
+      profilePicture: profilePicture
     });
     console.log(user);
     await user.save();
