@@ -43,6 +43,68 @@ export async function updateUserName(req, res) {
     }
 }
 
+/////////for saving referral code////////
+export async function saveReferralCode(req, res){
+    try {
+      const token = req.headers['authorization'];
+    console.log(token)
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    // Verify and decode the JWT token to get the user's ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded)
+    const userId = decoded.id;
+    console.log(userId)
+    const referralCode = shortid.generate();
+      // geneUser.findByoneAndUpdate
+      // Update the user with the generated referral code
+    const user = await User.findOneAndUpdate(userId, { referralCode }, { new: true });
+  
+      res.json({ success: true, referralCode: user.referralCode });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  };
+
+/////////////getting genalogy/////
+export async function genealogy(req, res){
+  try {
+    const token = req.headers['authorization'];
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    // Verify and decode the JWT token to get the user's ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    // Find the user by ID
+    const user = await User.findOne(userId).populate('parent').populate('children');
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Extract relevant information for response
+    const genealogyInfo = {
+      user: {
+        _id: user._id,
+        name: user.name,
+        referralCode: user.referralCode,
+      },
+      parent: user.parent ? { _id: user.parent._id, name: user.parent.name } : null,
+      children: user.children.map((child) => ({ _id: child._id, name: child.name, referralCode: child.referralCode })),
+    };
+
+    res.json({ success: true, genealogy: genealogyInfo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+
 export async function getProfilePicture(req,res){
     try {
 

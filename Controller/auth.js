@@ -3,6 +3,7 @@ const router = express.Router();
 import User from "../Model/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import shortid from 'shortid';
 
 import {verifyToken} from "../Middleware/auth.js"; // Import the JWT middleware
 
@@ -10,17 +11,36 @@ import {verifyToken} from "../Middleware/auth.js"; // Import the JWT middleware
 export const register = async (req, res) => {
   try {
 
-    const { email, username, password, profilePicture} = req.body;
+    const { email, username, password, profilePicture, referralCode} = req.body;
     console.log(req.body);
+
+    let referredBy = null;
+    if (referralCode) {
+      referredBy = await User.findOne({ referralCode });
+      if(referredBy){
+       referralCode = shortid.generate();
+      }
+      else{
+          res.status(500).json({ success: false, message: 'wrong referral code' });
+      }
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
       email,
       username,
       password: hashedPassword,
-      profilePicture, 
+      referralCode,
+      parent: referredBy,
+      profilePicture
     });
     console.log(user);
     await user.save();
+
+    if (referredBy) {
+      referredBy.children.push(newUser);
+      await referredBy.save();
+    }
     res.status(201).json({ message: 'User registered successfully' });
 
 

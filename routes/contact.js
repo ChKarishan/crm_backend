@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { verifyToken } from '../Middleware/auth.js';
+import { getAllContactsFromHubspot, getContact, createContact, updateContact} from '../Controller/contact.js'
 //import function from controller
 
 

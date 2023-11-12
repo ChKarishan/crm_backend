@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose"
 import authRoutes from "./routes/auth.js";
 import saleRoutes from "./routes/sale.js";
+import dealRoutes from "./routes/deal.js";
 import profileRoutes from "./routes/profile.js";
 import dotenv from "dotenv";
 import path from "path"
@@ -13,7 +14,7 @@ import Sale from './Model/Sale.js'
 import hubspot from "@hubspot/api-client";
 
 const hubspotClient = new hubspot.Client({
-    accessToken: 'pat-na1-c403eed2-62fb-4673-9e64-834f407f3904',
+    accessToken: 'pat-eu1-e3336767-6091-44af-99be-8941f27a2673',
     numberOfApiCallRetries: 3,
 });
         
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/auth", authRoutes);
 app.use('/sales', saleRoutes);
 app.use('/profile',profileRoutes);
+app.use('/deals',dealRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;

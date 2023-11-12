@@ -19,17 +19,31 @@ export async function createDeal(req,res){
     try{
 
         const { amount, closedate, dealname, pipeline, dealstage} = req.body;
-        const deal = new Deal({
+        const dealobj =
+                        {
+                        "properties": {
+                                    "amount": amount,
+                                    "closedate": closedate,
+                                    "dealname": dealname,
+                                    "pipeline": pipeline,
+                                    "dealstage": dealstage,
+                                    
+                                     }
+                            };
+        const dealid = await hubspotClient.crm.deals.basicApi.create(dealobj);
+        console.log(dealid);
+        const dealId = dealid.id;
+         const deal = new Deal({
+            dealId,
             amount,
             closedate,
             dealname,
             pipeline, 
             dealstage,
           });
-        console.log(deal);
-        deal = await hubspotClient.crm.deals.basicApi.create(dealobj);
-        console.log(deal);
+          console.log(deal);
         await deal.save();
+        console.log("done");
         res.status(201).json({ message: 'Deal Creation successfully' });
 
     }catch(error){
@@ -71,5 +85,13 @@ export async function getDeal(req, res){
 
         res.status(500).json({ error: 'Internal Server Error' });
 
+    }
+}
+
+export async function AssociateDealWithUser(req, res){
+    try{
+
+    }catch(error){
+        
     }
 }
