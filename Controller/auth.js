@@ -12,13 +12,16 @@ export const register = async (req, res) => {
   try {
 
     const { email, username, password, profilePicture, referralCode} = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     let referredBy = null;
     if (referralCode) {
       referredBy = await User.findOne({ referralCode });
+      // console.log(referredBy)
       if(referredBy){
-       parent = referredBy; //shortid.generate();
+        console.log("hi");
+       const parent = referredBy._id; //shortid.generate();
+       console.log(parent);
       }
       else{
           res.status(500).json({ success: false, message: 'wrong referral code' });
@@ -31,14 +34,14 @@ export const register = async (req, res) => {
       username: username,
       password: hashedPassword,
       referralCode: shortid.generate(),
-      parent: referredBy,
+      parent: referredBy._id,
       profilePicture: profilePicture
     });
     console.log(user);
     await user.save();
 
     if (referredBy) {
-      referredBy.children.push(newUser);
+      referredBy.children.push(user);
       await referredBy.save();
     }
     res.status(201).json({ message: 'User registered successfully' });
