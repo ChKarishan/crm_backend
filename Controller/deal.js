@@ -88,8 +88,22 @@ export async function getDeal(req, res){
     }
 }
 
-export async function AssociateDealWithUser(req, res){
+export async function AssociateDealWithContact(req, res){
     try{
+        const {dealId, contactId} = req.body
+        await hubspotClient.crm.associations.v4.basicApi.create(
+            'deal',
+            dealId,
+            'contacts',
+            contactId,
+            [
+                {
+                      "associationCategory": "HUBSPOT_DEFINED",
+                      "associationTypeId": AssociationTypes.dealToContact 
+                      // AssociationTypes contains the most popular HubSpot defined association types
+                }
+            ]
+        )
 
     }catch(error){
         
