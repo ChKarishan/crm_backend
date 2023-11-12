@@ -1,5 +1,6 @@
 import Sale from '../Model/Sale.js';
 
+
 export async function getSales(req, res) {
     try {
         const sales = await Sale.find();
@@ -75,3 +76,74 @@ export async function deleteSale(req, res) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+
+export async function annualSale(req, res) {
+  try{
+
+  console.log('hi')
+  const allSales = await Sale.find();
+  console.log(allSales);
+  const currentYear = new Date().getFullYear();
+  console.log(currentYear);
+  var total = 0;
+  const salesThisYear = allSales.filter(sale => {
+    const saleYear = new Date(sale.Date).getFullYear();
+    console.log(saleYear);
+    console.group(total);
+    if(saleYear === currentYear){
+      console.log("year same");
+      total = total + sale.Price;
+    }
+  });
+  console.log(total);
+  res.json(total);
+
+  }catch(error){
+
+    res.status(500).json({ error: 'Internal Server Error' });
+
+  }
+}
+
+export async function largestSale(req,res){
+  try{
+
+    const allSales = await Sale.find();
+    let largestSale = allSales[0];
+    for (let i = 1; i < allSales.length; i++) {
+      if (allSales[i].Price > largestSale.Price) {
+        largestSale = allSales[i];
+      }
+  }
+  res.json(largestSale.Price)
+  }catch(error){
+
+    res.status(500).json({ error: 'Internal Server Error' });
+
+  }
+}
+
+export async function dailyAverageSale(req,res){
+  try{
+    const currentYear = new Date().getFullYear();
+    const allSales = await Sale.find();
+    const totalSales = allSales.reduce((sum, sale) => sum + sale.Price, 0);
+    const salesThisYear = allSales.filter(sale => {
+      const saleYear = new Date(sale.Date).getFullYear();
+      return saleYear === currentYear;
+  });
+  const uniqueDays = [...new Set(salesThisYear.map(sale => sale.Date))];
+  const numberOfDays = uniqueDays.length;
+  if (numberOfDays === 0) {
+    return 0; // To avoid division by zero
+  }
+  const averageDailySale = totalSales / numberOfDays;
+  res.json(averageDailySale)
+
+
+  }catch(error){
+
+  }
+}
+
