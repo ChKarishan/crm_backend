@@ -1,4 +1,5 @@
 import Sale from '../Model/Sale.js';
+import shortid from 'shortid';
 
 
 export async function getSales(req, res) {
@@ -12,7 +13,26 @@ export async function getSales(req, res) {
 
 export async function createSale(req, res) {
   try {
-    const saleData = req.body;
+    const saleid = shortid.generate();
+    const { 
+      numberOfPanels,
+      totalWattage,
+      redline,
+      financingDetails,
+      Price,
+      Date,
+      agent
+     } = req.body;
+     const saleData = {
+      saleid,
+      numberOfPanels,
+      totalWattage,
+      redline,
+      financingDetails,
+      Price,
+      Date,
+      agent
+     }
       console.log(saleData)
       const sale = new Sale(saleData);
       await sale.save();
@@ -48,10 +68,13 @@ export async function updateSale(req, res) {
     }
     // Update the sale properties with the new data
     sale.SaleID = updatedData.SaleID || sale.SaleID;
-    sale.ItemID = updatedData.ItemID || sale.ItemID;
-    sale.ItemName = updatedData.ItemName || sale.ItemName;
+    sale.numberOfPanels = updatedData.numberOfPanels || sale.numberOfPanels;
+    sale.totalWattage = updatedData.totalWattage || sale.totalWattage;
+    sale.redline = updatedData.redline || sale.redline;
+    sale.financingDetails = updatedData.financingDetails || sale.financingDetails;
     sale.Price = updatedData.Price || sale.Price;
     sale.Date = updatedData.Date || sale.Date;
+    sale.agent = updatedData.agent || sale.agent;
     // Save the updated sale
     await sale.save();
     res.json(sale)
@@ -144,6 +167,37 @@ export async function dailyAverageSale(req,res){
 
   }catch(error){
 
+    res.status(500).json({ error: 'Internal Server Error' });
+
   }
 }
 
+export async function saleWithMostPannels(req, res){
+  try{
+    const saleWithMostPanels = await Sale.findOne({})
+    .sort({ numberOfPanels: -1 })
+    .populate('agent') // If you want to populate the agent details
+    .exec();
+  res.json(saleWithMostPanels);
+
+  }catch{(error)
+
+    res.status(500).json({ error: 'Internal Server Error' });
+
+  }
+}
+
+export async function saleWithMostWattage(req, res){
+  try{
+    const saleWithMostWattage = await Sale.findOne({})
+    .sort({ totalWattage: -1 })
+    .populate('agent') // If you want to populate the agent details
+    .exec();
+  res.json(saleWithMostWattage);
+
+  }catch{(error)
+
+    res.status(500).json({ error: 'Internal Server Error' });
+
+  }
+}

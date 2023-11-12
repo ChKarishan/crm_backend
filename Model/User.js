@@ -5,8 +5,8 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   referralCode: { type: String, unique: true },
-  parent: { type: mongoose.Schema.Types.ObjectId, ref: 'geneUser' },
-  children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'geneUser' }],
+  parent: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   profilePicture: { type: String },
 });
 
