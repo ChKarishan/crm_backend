@@ -5,13 +5,6 @@ import bcrypt from "bcrypt";
 import path from "path";
 import jwt from 'jsonwebtoken';
 import axios from "axios";
-// import {v2 as cloudinary} from 'cloudinary';
-
-// cloudinary.config({ 
-//     cloud_name: 'dmlmiktus', 
-//     api_key: '777783275156829', 
-//     api_secret: 'aL8yg2Pw9cTo_69wvFCFhvlZuEg' 
-//   });
 
 export async function updateUserName(req, res) {
     try {
