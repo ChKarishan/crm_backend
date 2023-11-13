@@ -48,14 +48,19 @@ export async function saveReferralCode(req, res){
     // Verify and decode the JWT token to get the user's ID
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded)
-    const userId = {userId: decoded.id};
+    const userId = decoded.id;
     console.log(userId)
     const referralCode = shortid.generate();
+    const user = await User.findById(userId);
+    user.referralCode = referralCode;
+    console.log(user);
+    await user.save();
+    res.json(user.referralCode);
       // geneUser.findByoneAndUpdate
       // Update the user with the generated referral code
-    const user = await User.findOneAndUpdate(userId, { referralCode }, { new: true });
+    // const user = await User.findOneAndUpdate(userId, { referralCode }, { new: true });
   
-      res.json({ success: true, referralCode: user.referralCode });
+      // res.json({ success: true, referralCode: user.referralCode });
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: 'Internal Server Error' });
