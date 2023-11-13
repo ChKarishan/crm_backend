@@ -75,7 +75,7 @@ export async function updateSale(req, res) {
       return { success: false, message: 'Sale not found' };
     }
     // Update the sale properties with the new data
-    sale.SaleID = updatedData.SaleID || sale.SaleID;
+    sale.saleID = updatedData.saleID || sale.saleID;
     sale.numberOfPanels = updatedData.numberOfPanels || sale.numberOfPanels;
     sale.totalWattage = updatedData.totalWattage || sale.totalWattage;
     sale.redline = updatedData.redline || sale.redline;

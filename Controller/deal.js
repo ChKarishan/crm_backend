@@ -57,11 +57,27 @@ export async function updateDeal(req, res){
     try{
 
         const dealId = req.params.dealId;
+        const deal = await Deal.findOne({dealId});
+        console.log(deal);
         const { amount, closedate, dealname, pipeline, dealstage} = req.body;
-        const data = {dealId, amount, closedate, dealname, pipeline, dealstage};
-        console.log("1");
-        const response = await hubspotClient.put(`/deals/v1/deal/${dealId}`, data);
-        console.log("2");
+        const data = {
+            id: dealId,
+            properties: {
+                amount: amount,
+                closedate: closedate,
+                dealname: dealname,
+                pipeline: pipeline,
+                dealstage: dealstage
+            },
+        }
+        deal.dealId = dealId || deal.dealId;
+        deal.amount = amount || deal.amount;
+        deal.closedate = closedate || deal.closedate;
+        deal.dealname = dealname || deal.dealname;
+        deal.pipeline = pipeline || deal.pipeline;
+        deal.dealstage = dealstage || deal.dealstage;
+        await deal.save();
+        const response = await hubspotClient.crm.deals.batchApi.update({ inputs: [data] })
         res.json(response);
 
     }catch{
