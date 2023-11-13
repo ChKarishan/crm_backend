@@ -40,9 +40,16 @@ export async function getAllNews(req, res){
 export async function getNewsDaily(req, res){
     try{
 
-        const today = new Date().toLocaleDateString(); // Get current date in string format
-        const newsForToday = await News.find({ date: today });
-        res.json(newsForToday);
+        const allNews = await News.find();
+        const currentDate = new Date().getDate();
+        console.log(currentDate);
+        const newsToday = allNews.filter(news => {
+          const newsDay = new Date(news.date).getDate();
+          console.log(newsDay);
+          return newsDay === currentDate;
+        });
+        console.log(newsToday);
+        res.json(newsToday);
 
     }catch(error){
         
@@ -54,14 +61,16 @@ export async function getNewsDaily(req, res){
 export async function getNewsMonthly(req, res){
     try{
 
-        const today = new Date(); // Get the current date
-    const thirtyDaysAgo = new Date(today);
-    thirtyDaysAgo.setDate(today.getDate() - 30); // Calculate the date 30 days ago
-    const formattedThirtyDaysAgo = thirtyDaysAgo.toLocaleDateString();
-    const newsForLast30Days = await News.find({
-      date: { $gte: formattedThirtyDaysAgo, $lte: today.toLocaleDateString() }
-    });
-    res.json(newsForLast30Days);
+        const allNews = await News.find();
+        const currentMonth = new Date().getMonth();
+        console.log(currentMonth);
+        const newsThisMonth = allNews.filter(news => {
+          const newsMonth = new Date(news.date).getMonth();
+          console.log(newsMonth);
+          return newsMonth === currentMonth;
+        });
+        console.log(newsThisMonth);
+        res.json(newsThisMonth);
 
     }catch(error){
         
@@ -73,13 +82,16 @@ export async function getNewsMonthly(req, res){
 export async function getNewsYearly(req, res){
     try{
 
-    const today = new Date(); // Get the current date
-    const startOfYear = new Date(today.getFullYear(), 0, 1); // Start date of the current year
-    const formattedStartOfYear = startOfYear.toLocaleDateString();
-    const newsForThisYear = await News.find({
-      date: { $gte: formattedStartOfYear, $lte: today.toLocaleDateString() }
-    });
-    res.json(newsForThisYear);
+        const allNews = await News.find();
+        const currentYear = new Date().getFullYear();
+        console.log(currentYear);
+        const newsThisYear = allNews.filter(news => {
+          const newsYear = new Date(news.date).getFullYear();
+          console.log(newsYear);
+          return newsYear === currentYear;
+        });
+        console.log(newsThisYear);
+        res.json(newsThisYear);
 
     }catch(error){
         
