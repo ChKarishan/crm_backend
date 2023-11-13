@@ -117,18 +117,11 @@ export async function updateContact(req,res){
 
 export async function IdFromEmail(req, res){
     try{
-    const contactEmail = req.params.email;
-    let contactId = NaN;
-    const searchRequest = new PublicObjectSearchRequest({
-        query: `email:${contactEmail}`,
-        properties: ['id'],
-        });
+    const email = req.params.email;
+    const contact = await Contact.findOne({email});
+    console.log(contact);
+    res.json(contact.contactId);
 
-    client.crm.contacts.basicApi.search(searchRequest)
-        .then(response => {
-            contactId = response.body.results[0]?.id;
-        });
-        res.json(contactId);
     }catch(error){
         console.log('Error searching for contact:', error.response.body);
     }
