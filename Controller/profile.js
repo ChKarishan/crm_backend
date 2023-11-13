@@ -4,6 +4,7 @@ import User from "../Model/User.js";
 import bcrypt from "bcrypt";
 import path from "path";
 import jwt from 'jsonwebtoken';
+import shortid from 'shortid';
 import axios from "axios";
 
 export async function updateUserName(req, res) {
@@ -47,7 +48,7 @@ export async function saveReferralCode(req, res){
     // Verify and decode the JWT token to get the user's ID
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded)
-    const userId = decoded.id;
+    const userId = {userId: decoded.id};
     console.log(userId)
     const referralCode = shortid.generate();
       // geneUser.findByoneAndUpdate
@@ -70,11 +71,13 @@ export async function genealogy(req, res){
     }
     // Verify and decode the JWT token to get the user's ID
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const id = decoded.id;
+    console.log(id);
 
     // Find the user by ID
-    const user = await User.findOne(userId).populate('parent').populate('children');
+    const user = await User.findById(id).populate('parent').populate('children');
 
+    console.log(user);
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }

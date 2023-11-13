@@ -59,12 +59,12 @@ export async function updateDeal(req, res){
         const dealId = req.params.dealId;
         const { amount, closedate, dealname, pipeline, dealstage} = req.body;
         const data = {dealId, amount, closedate, dealname, pipeline, dealstage};
+        console.log("1");
         const response = await hubspotClient.put(`/deals/v1/deal/${dealId}`, data);
-        res.json(response.data);
+        console.log("2");
+        res.json(response);
 
     }catch{
-
-        console.error(error);
         res.status(500).send('Internal Server Error');
 
     }
@@ -73,8 +73,8 @@ export async function updateDeal(req, res){
 export async function getDeal(req, res){
     try{
 
-        const dealId = req.params.id;
-        const deal = await Deal.findById(dealId);
+        const dealId = {dealId: req.params.id};
+        const deal = await Deal.findOne(dealId);
         if (deal) {
             res.json(deal);
           } else {

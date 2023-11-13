@@ -10,6 +10,6 @@ router.get('/getAllContactsFromHubspot', verifyToken, getAllContactsFromHubspot)
 router.get('/getContact/:contactId', verifyToken, getContact);
 router.post('/createContact', verifyToken, createContact);
 router.put('/updateContact/:contactId', verifyToken, updateContact); //remaining
-router.get('IdFromEmail', verifyToken, IdFromEmail);
+router.get('/IdFromEmail/:email', verifyToken, IdFromEmail);
 
 export default router;

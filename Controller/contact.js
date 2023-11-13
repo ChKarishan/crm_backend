@@ -1,4 +1,5 @@
 import Deal from '../Model/Deal.js';
+import Contact from '../Model/Contact.js';
 import hubspotClient from '../index.js';
 
 export async function getAllContactsFromHubspot(req,res){
@@ -59,12 +60,12 @@ export async function createContact(req,res){
 export async function getContact(req,res){
     try{
 
-        const contactId = req.params.contactId;
-        const contact = await Deal.findById(contactId);
+        const contactId = {contactId: req.params.contactId};
+        const contact = await Contact.findOne(contactId);
         if (contact) {
             res.json(contact);
           } else {
-            res.status(404).json({ message: 'Deal not found' });
+            res.status(404).json({ message: 'Contact not found' });
           }
 
     }catch(error){
@@ -84,7 +85,7 @@ export async function updateContact(req,res){
 
 export async function IdFromEmail(req, res){
     try{
-
+    const contactEmail = req.params.email;
     let contactId = NaN;
     const searchRequest = new PublicObjectSearchRequest({
         query: `email:${contactEmail}`,
@@ -97,6 +98,6 @@ export async function IdFromEmail(req, res){
         });
         res.json(contactId);
     }catch(error){
-        console.error('Error searching for contact:', error.response.body);
+        console.log('Error searching for contact:', error.response.body);
     }
 }

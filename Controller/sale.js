@@ -13,6 +13,14 @@ export async function getSales(req, res) {
 
 export async function createSale(req, res) {
   try {
+    const token = req.headers['authorization'];
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    // Verify and decode the JWT token to get the user's ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const agent = decoded.id;
+
     const saleid = shortid.generate();
     const { 
       numberOfPanels,
@@ -20,9 +28,9 @@ export async function createSale(req, res) {
       redline,
       financingDetails,
       Price,
-      Date,
-      agent
+      Date
      } = req.body;
+     console.log(req.body);
      const saleData = {
       saleid,
       numberOfPanels,
