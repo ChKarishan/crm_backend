@@ -6,7 +6,8 @@ import shortid from 'shortid';
 export async function createNews(req, res){
     try{
 
-        const {heading, discription, date} = req.body;
+        const {heading, discription} = req.body;
+        const date = Date();
         const newsId = shortid.generate();
         const news = new News({
             newsId,

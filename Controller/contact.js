@@ -28,11 +28,14 @@ export async function createContact(req,res){
                                     "lastname": lastname,
                                     "phone": phone,
                                     "company": company,
-                                    "WebSite": WebSite,
-                                    "LifeCyclestage": LifeCyclestage,
+                                    "website": WebSite,
+                                    "lifecyclestage": LifeCyclestage,
                                      }
                             };
+                            console.log(contactobj);
+
         const contactid = await hubspotClient.crm.contacts.basicApi.create(contactobj);
+
         console.log(contactid);
         const contactId = contactid.id;
          const contact = new Contact({

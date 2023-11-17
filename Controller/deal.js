@@ -30,6 +30,7 @@ export async function createDeal(req,res){
                                     
                                      }
                             };
+                console.log(dealobj);            
         const dealid = await hubspotClient.crm.deals.basicApi.create(dealobj);
         console.log(dealid);
         const dealId = dealid.id;
