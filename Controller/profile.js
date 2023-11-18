@@ -257,8 +257,32 @@ export async function getRefferalCode(req,res){
 export async function mostReferral(req,res){
 
   try{
+    User.aggregate([
+      {
+        $project: {
+          numberOfChildren: { $size: '$children' },
+        },
+      },
+      {
+        $sort: { numberOfChildren: -1 },
+      },
+      {
+        $limit: 1,
+      },
+    ])
+      .then((result) => {
+        if (result.length > 0) {
+          const userWithMostChildren = result[0];
+          console.log('User with most children:', userWithMostChildren);
+          res.json(userWithMostChildren.numberOfChildren);
+        } else {
+          console.log('No users found.');
+        }
+        });
 
   }catch(error){
+
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
     
   }
 }
