@@ -9,6 +9,7 @@ const saleSchema = new mongoose.Schema({
   Price: Number,
   Date: String,
   agent: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+  installers: [{type: mongoose.Schema.Types.ObjectId, ref: 'Installer'}]
 });
 
 export default mongoose.model('Sale', saleSchema);

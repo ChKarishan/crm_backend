@@ -217,3 +217,48 @@ export async function changePassword(req,res){
 
 }
 
+
+export async function getParent(req,res){
+  try{
+
+    const token = req.headers['authorization'];
+    console.log(token)
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    // Verify and decode the JWT token to get the user's ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded)
+    const userId = decoded.id;
+
+  }catch(error){
+
+  }
+}
+
+export async function getChildren(req,res){
+
+  try{
+
+  }catch(error){
+    
+  }
+}
+
+export async function getRefferalCode(req,res){
+
+  try{
+
+  }catch(error){
+    
+  }
+}
+
+export async function mostReferral(req,res){
+
+  try{
+
+  }catch(error){
+    
+  }
+}

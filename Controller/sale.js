@@ -28,7 +28,8 @@ export async function createSale(req, res) {
       redline,
       financingDetails,
       Price,
-      Date
+      Date,
+      installers
      } = req.body;
      console.log(req.body);
      const saleData = {
@@ -39,7 +40,8 @@ export async function createSale(req, res) {
       financingDetails,
       Price,
       Date,
-      agent
+      agent,
+      installers
      }
       console.log(saleData)
       const sale = new Sale(saleData);
@@ -83,6 +85,7 @@ export async function updateSale(req, res) {
     sale.Price = updatedData.Price || sale.Price;
     sale.Date = updatedData.Date || sale.Date;
     sale.agent = updatedData.agent || sale.agent;
+    sale.installers = updatedData.installers || sale.installers;
     // Save the updated sale
     await sale.save();
     res.json(sale)
