@@ -30,9 +30,5 @@
     "path": "^0.12.7",
     "shortid": "^2.2.16"
   },
-  "description": "",
-  "devDependencies": {
-    "@babel/core": "^7.23.5",
-    "@babel/preset-env": "^7.23.5"
-  }
+  "description": ""
 }
