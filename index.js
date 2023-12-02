@@ -22,7 +22,7 @@ import cors from 'cors';
 
 const app = express();
 const corsOptions ={
-    origin:'https://crm-front-end-git-main-karishan-mehmoods-projects.vercel.app', 
+    origin:'https://crm-front-end-one.vercel.app/', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
