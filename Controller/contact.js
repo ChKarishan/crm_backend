@@ -1,6 +1,6 @@
 import Deal from '../Model/Deal.js';
 import Contact from '../Model/Contact.js';
-import hubspotClient from '../index.js';
+import hubspotClient from '../app.js';
 
 export async function getAllContactsFromHubspot(req,res){
     try{

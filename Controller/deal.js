@@ -1,5 +1,5 @@
 import Deal from '../Model/Deal.js';
-import hubspotClient from '../index.js';
+import hubspotClient from '../app.js';
 
 export async function getAllDealsFromHubspot(req,res){
     try{
