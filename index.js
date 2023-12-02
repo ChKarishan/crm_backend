@@ -41,6 +41,10 @@ dotenv.config();
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send("hello");
+})
+
 app.use(bodyParser.json());
 // Configure body-parser and Multer for handling form data and file uploads
 app.use(bodyParser.urlencoded({ extended: true }));
