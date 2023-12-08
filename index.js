@@ -22,7 +22,7 @@ import cors from 'cors';
 
 const app = express();
 const corsOptions ={
-    origin:'https://crm-frontend-master-hazel.vercel.app/', 
+    origin:'https://crm-frontend-master-hazel.vercel.app', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
