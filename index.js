@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 
 
 const hubspotClient = new hubspot.Client({
-    accessToken: process.env.accessToken,
+    accessToken: 'pat-eu1-e3336767-6091-44af-99be-8941f27a2673',
     numberOfApiCallRetries: 3,
 });
         
