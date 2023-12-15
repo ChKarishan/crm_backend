@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const installerSchema = new mongoose.Schema({
-    Name: { type: String },
-    PhoneNumber: { type: String }
+    Name: String,
+    PhoneNumber: String,
 });
 
 export default mongoose.model('Installer', installerSchema);
