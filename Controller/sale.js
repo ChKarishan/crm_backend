@@ -1,5 +1,6 @@
 import Sale from '../Model/Sale.js';
 import shortid from 'shortid';
+import jwt from 'jsonwebtoken';
 
 
 export async function getSales(req, res) {
