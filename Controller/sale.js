@@ -1,6 +1,9 @@
 import Sale from '../Model/Sale.js';
 import shortid from 'shortid';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+import User from '../Model/User.js';
+import Installer from '../Model/Installer.js';
 
 
 export async function getSales(req, res) {
@@ -18,12 +21,13 @@ export async function createSale(req, res) {
     if (!token) {
       return res.status(401).json({ error: 'No token provided' });
     }
-    // Verify and decode the JWT token to get the user's ID
+    // Verify and decode the JWT token to get the user's ID 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const agent = decoded.id;
-
-    const saleid = shortid.generate();
-    const { 
+    const userId = decoded.id;
+    const agent = await User.findById(userId);
+  
+    // const saleid = shortid.generate();
+    let { 
       numberOfPanels,
       totalWattage,
       redline,
@@ -33,20 +37,26 @@ export async function createSale(req, res) {
       installers
      } = req.body;
      console.log(req.body);
+     for (let i = 0; i < installers.length; i++) {
+      let x = await Installer.findById(installers[i]);
+      installers[i] = x._id;
+    }
+    console.log(installers);
      const saleData = {
-      saleid,
+      // saleid,
       numberOfPanels,
       totalWattage,
       redline,
       financingDetails,
       Price,
       Date,
-      agent,
-      installers: installers.map(installerId => mongoose.Types.ObjectId(installerId))
+      agent: agent._id,
+      installers: installers
      }
       console.log(saleData)
       const sale = new Sale(saleData);
       await sale.save();
+      
       res.status(201).json(sale);
     } catch (error) {
       res.status(400).json({ error: 'Invalid data' });
