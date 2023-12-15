@@ -42,7 +42,7 @@ export async function createSale(req, res) {
       Price,
       Date,
       agent,
-      installers
+      installers: installers.map(installerId => mongoose.Types.ObjectId(installerId))
      }
       console.log(saleData)
       const sale = new Sale(saleData);
