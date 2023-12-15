@@ -1,4 +1,4 @@
-import Installer from '../Model/Installer';
+import Installer from '../Model/Installer.js';
 
 export async function createInstaller(req,res){
     try{
