@@ -43,7 +43,7 @@ dotenv.config();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send("hello");
+    res.send("hello world");
 })
 
 app.use(bodyParser.json());
