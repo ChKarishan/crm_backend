@@ -58,7 +58,7 @@ app.use('/profile',profileRoutes);
 app.use('/deals',dealRoutes);
 app.use('/contacts',contactRoutes);
 app.use('/news', newsRoutes);
-// app.use('/installer', installerRoutes);
+app.use('/installer', installerRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
