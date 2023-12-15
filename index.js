@@ -6,7 +6,7 @@ import dealRoutes from "./routes/deal.js";
 import profileRoutes from "./routes/profile.js";
 import contactRoutes from "./routes/contact.js";
 import newsRoutes from "./routes/news.js";
-import installerRoutes from "./routes/installer.js";
+// import installerRoutes from "./routes/installer.js";
 import dotenv from "dotenv";
 import path from "path"
 import { fileURLToPath } from "url";
@@ -58,7 +58,7 @@ app.use('/profile',profileRoutes);
 app.use('/deals',dealRoutes);
 app.use('/contacts',contactRoutes);
 app.use('/news', newsRoutes);
-app.use('/installer', installerRoutes);
+// app.use('/installer', installerRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
