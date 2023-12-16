@@ -138,7 +138,7 @@ export async function dealsThisYear(req, res){
         });
     
         // Send the count as a JSON response
-        res.json({ count: dealsCount });
+        res.json(dealsCount);
       } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
