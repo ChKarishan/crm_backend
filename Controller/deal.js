@@ -138,7 +138,22 @@ export async function dealsThisYear(req, res){
         });
     
         // Send the count as a JSON response
-        res.json(dealsCount);
+        res.json({ count: dealsCount });
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}
+
+export async function getClosedWonDeals(req, res){
+    try {
+        // Query the database for deals with dealstage 'closedwon'
+        const closedWonDealsCount = await Deal.countDocuments({
+          dealstage: 'closedwon',
+        });
+    
+        // Send the count as a JSON response
+        res.json(closedWonDealsCount);
       } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
