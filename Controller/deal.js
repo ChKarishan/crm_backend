@@ -126,3 +126,21 @@ export async function AssociateDealWithContact(req, res){
         
     }
 }
+
+export async function dealsThisYear(req, res){
+    try {
+        // Get the current year
+        const currentYear = new Date().getFullYear();
+    
+        // Query the database for deals with closedate in the current year
+        const dealsCount = await Deal.countDocuments({
+          closedate: { $regex: `^${currentYear}` }, // Assuming 'closedate' is a string in the format 'YYYY-MM-DD'
+        });
+    
+        // Send the count as a JSON response
+        res.json({ count: dealsCount });
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}
