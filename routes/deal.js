@@ -10,6 +10,6 @@ router.get('/getDeal/:id', verifyToken, getDeal);
 router.post('/createDeal', verifyToken, createDeal);  //yestomonday
 router.post('/AssociateDealWithContact', verifyToken, AssociateDealWithContact); //remaining
 router.put('/updateDeal/:dealId', verifyToken, updateDeal);
-router.put('/dealsThisYear', verifyToken, dealsThisYear);
+router.get('/dealsThisYear', verifyToken, dealsThisYear);
 
 export default router;
