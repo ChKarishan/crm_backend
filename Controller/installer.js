@@ -49,6 +49,31 @@ export async function getInstaller(req,res){
 
 }
 
+export async function getListInstaller(req,res){
+    try{
+
+        const List = req.body;
+        const results = [];
+        for (let i = 0; i < List.length; i++) {
+            const installer = await Installer.findById(List[i]);
+            console.log(installer);
+            results.push(installer);
+           console.log(i+1);
+          }
+          console.log(results);
+      
+         res.status(200).json({results});
+   
+        
+        
+    }catch(error){
+
+        res.status(500).json({ error: 'Internal Server Error' });
+
+    }
+
+}
+
 export async function updateInstaller(req,res){
     try{
         
