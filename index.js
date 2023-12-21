@@ -6,7 +6,8 @@ import dealRoutes from "./routes/deal.js";
 import profileRoutes from "./routes/profile.js";
 import contactRoutes from "./routes/contact.js";
 import newsRoutes from "./routes/news.js";
-import installerRoutes from "./routes/installer.js";
+import installers from "./routes/installer.js";
+import saleNoteRoutes from "./routes/sale_note.js";
 import dotenv from "dotenv";
 import path from "path"
 import { fileURLToPath } from "url";
@@ -22,8 +23,9 @@ import cors from 'cors';
 
 
 const app = express();
+// app.use(cors({ origin: 'http://localhost:55853' }));
 const corsOptions ={
-    origin:'https://crm-frontend-master-hazel.vercel.app', 
+    origin:'http://localhost:3000', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
@@ -37,14 +39,10 @@ const hubspotClient = new hubspot.Client({
         
 
 const __filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send("hello world");
-})
 
 app.use(bodyParser.json());
 // Configure body-parser and Multer for handling form data and file uploads
@@ -58,7 +56,8 @@ app.use('/profile',profileRoutes);
 app.use('/deals',dealRoutes);
 app.use('/contacts',contactRoutes);
 app.use('/news', newsRoutes);
-app.use('/installer', installerRoutes);
+app.use('/installers', installers);
+app.use('/saleNotes', saleNoteRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
@@ -76,3 +75,4 @@ mongoose.connect(process.env.MONGO_URL, {
 }).catch((error) => console.log(`${error} did not conenct`));
 
 export default hubspotClient;
+
