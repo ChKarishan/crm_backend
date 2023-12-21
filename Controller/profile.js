@@ -89,11 +89,7 @@ export async function genealogy(req, res){
 
     // Extract relevant information for response
     const genealogyInfo = {
-      user: {
-        _id: user._id,
-        name: user.name,
-        referralCode: user.referralCode,
-      },
+      user: user,
       parent: user.parent ? { _id: user.parent._id, name: user.parent.name } : null,
       children: user.children.map((child) => ({ _id: child._id, name: child.name, referralCode: child.referralCode })),
     };
