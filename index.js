@@ -25,7 +25,7 @@ import cors from 'cors';
 const app = express();
 // app.use(cors({ origin: 'http://localhost:55853' }));
 const corsOptions ={
-    origin:'http://localhost:3000', 
+    origin:'https://crm-frontend-master-hazel.vercel.app', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
