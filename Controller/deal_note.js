@@ -57,7 +57,7 @@ export async function getDealNoteByDealId(req, res) {
 
         const deal = {deal: req.params.id};
         console.log(deal);
-        const dealNote = await Deal_Note.find(deal);
+        const dealNote = await Deal_Note.find({dealId: deal});
         console.log(dealNote);
         if (dealNote) {
             res.json(dealNote);
