@@ -8,7 +8,7 @@ export async function createDealNote(req, res) {
             deal,
             noteText
            } = req.body;
-        let deal_obj = await Deal.findone(deal);
+           let deal_obj = await Deal.findOne({dealId: deal});
 
         const dealNoteData = {
            deal: deal_obj._id,
