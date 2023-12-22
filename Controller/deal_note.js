@@ -53,19 +53,21 @@ export async function getDealNoteById(req, res) {
 }
 
 export async function getDealNoteByDealId(req, res) {
-    try {
+  try {
 
-        const deal = {deal: req.params.id};
-        console.log(deal);
-        const dealNote = await Deal_Note.find({dealId: deal});
-        console.log(dealNote);
-        if (dealNote) {
-            res.json(dealNote);
-          } else {
-            res.status(404).json({ message: 'deal Note not found' });
-          }
-       
-      } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
+      const deal = req.params.id;
+      console.log(deal);
+      let deal_obj = await Deal.findOne({dealId: deal});
+      console.log(deal_obj);
+      const dealNote = await Deal_Note.find({deal: deal_obj._id});
+      console.log(dealNote);
+      if (dealNote) {
+          res.json(dealNote);
+        } else {
+          res.status(404).json({ message: 'deal Note not found' });
+        }
+     
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
 }
