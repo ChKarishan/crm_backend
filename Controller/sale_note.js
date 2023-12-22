@@ -57,7 +57,7 @@ export async function getSaleNoteBySaleId(req, res) {
 
         const sale = {sale: req.params.id};
         console.log(sale);
-        const saleNote = await Sale_Note.findOne(sale);
+        const saleNote = await Sale_Note.find(sale);
         console.log(saleNote);
         if (saleNote) {
             res.json(saleNote);
