@@ -15,10 +15,20 @@ export async function getAllDealsFromHubspot(req,res){
     }
 }
 
+export async function getDeals(req, res) {
+    try {
+        const deals = await Deal.find();
+        res.json(deals);
+      } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}
+
 export async function createDeal(req,res){
     try{
 
-        const { amount, closedate, dealname, pipeline, dealstage} = req.body;
+        const { amount, closedate, dealname, pipeline,
+            sizeofpannals, address, dealstage} = req.body;
         const dealobj =
                         {
                         "properties": {
@@ -40,6 +50,8 @@ export async function createDeal(req,res){
             closedate,
             dealname,
             pipeline, 
+            sizeofpannals,
+            address,
             dealstage,
           });
           console.log(deal);

@@ -7,7 +7,10 @@ const dealSchema = new mongoose.Schema({
   closedate: String,
   dealname: String,
   pipeline: String,
+  sizeofpannals: String,
+  address: String,
   dealstage: String,
+
 });
 
 export default mongoose.model('Deal', dealSchema);
